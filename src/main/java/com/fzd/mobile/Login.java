@@ -50,7 +50,7 @@ public class Login {
     public static void main(String... arg) {
 //        try {
 //            System.out.println("GetSession Begin:");
-////            Cookie = getSessionId();
+////            Cookie = getSessionId("http://www.sc.10086.cn/login.html?url=my/",httpClient);
 ////            Util.cookie = Cookie;
 //            System.out.println(Cookie);
 //            VerCode verCode = getSmsImgVerifyCode(dispatcher);
@@ -102,27 +102,6 @@ public class Login {
                 e.printStackTrace();
             }
         }
-    }
-
-    private static String getSessionId() {
-        StringBuffer cookie = new StringBuffer();
-        try {
-            Map<String, Object> map = Util.sendHttpGet("http://www.sc.10086.cn/login.html?url=my/", httpClient);
-            Header[] headers = (Header[]) map.get("headers");
-//            Util.printHeader(headers);
-            for (Header header : headers) {
-                if (header.getName().equals("Set-Cookie")) {
-                    cookie.append(header.getValue());
-                    cookie.append(";");
-                }
-            }
-            cookie.deleteCharAt(cookie.length() - 1);
-//            VerCode verCode = getSmsImgVerifyCode("http://www.sc.10086.cn/service/actionDispatcher.do");
-//            System.out.println(verCode.getResultObj());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return cookie.toString();
     }
 
 

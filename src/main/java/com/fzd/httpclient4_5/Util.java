@@ -3,6 +3,7 @@ package com.fzd.httpclient4_5;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
@@ -13,7 +14,8 @@ import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.*;
+import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
 import java.io.BufferedReader;
@@ -58,7 +60,7 @@ public class Util {
 
     public static HttpClient getHttpClient() {
 //        return HttpClients.custom().setConnectionManager(cm).build();
-        return new DefaultHttpClient();
+        return HttpClients.createDefault();
     }
 
     public static void operateResponse(HttpResponse response) {
@@ -140,6 +142,29 @@ public class Util {
 //        httpRequestBase.setHeader("Cookie",cookie);
 //        httpRequestBase.setHeader("Cookie","JSESSIONID=HpF4wF-tqXP3ISIKFO1IqR5WIvnRUk5Pok_j1Po5XX7DYMKR-v-K!2060932554;xwt=r_xwt_107");
         return httpRequestBase;
+    }
+
+    public static String getSessionId(String url, HttpClient httpClient) {
+        StringBuffer cookie = new StringBuffer();
+        try {
+            Map<String, Object> map = Util.sendHttpGet(url, httpClient);
+            Header[] headers = (Header[]) map.get("headers");
+            Util.printHeader(headers);
+            for (Header header : headers) {
+                if (header.getName().equals("Set-Cookie")) {
+                    cookie.append(header.getValue());
+                    cookie.append(";");
+                }
+            }
+            if(cookie.toString().length() > 0) {
+                cookie.deleteCharAt(cookie.length() - 1);
+            }
+//            VerCode verCode = getSmsImgVerifyCode("http://www.sc.10086.cn/service/actionDispatcher.do");
+            System.out.println(cookie);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return cookie.toString();
     }
 
 }
