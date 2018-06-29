@@ -1,0 +1,147 @@
+package com.fzd.util;
+import org.elasticsearch.common.util.CollectionUtils;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ESQueryBuilderConstructor {
+
+    private int size = ESTypes.DEFAUL_SIZE;
+
+    private int from = 0;
+
+    private String asc;
+
+    private String desc;
+
+    //查询条件容器
+    private List<ESCriterion> mustCriterions = new ArrayList<ESCriterion>();
+    private List<ESCriterion> shouldCriterions = new ArrayList<ESCriterion>();
+    private List<ESCriterion> mustNotCriterions = new ArrayList<ESCriterion>();
+    private List<ESCriterion> filterCriterions = new ArrayList<ESCriterion>();
+    //构造builder
+    public QueryBuilder listBuilders() {
+        int count = mustCriterions.size() + shouldCriterions.size() + mustNotCriterions.size();
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        QueryBuilder queryBuilder = null;
+
+//        if (count >= 1) {
+//            //must容器
+//            if (!CollectionUtils.isEmpty(mustCriterions)) {
+//                for (ESCriterion criterion : mustCriterions) {
+//                    for (QueryBuilder builder : criterion.listBuilders()) {
+//                        queryBuilder = boolQueryBuilder.must(builder);
+//                    }
+//                }
+//            }
+//            //should容器
+//            if (!CollectionUtils.isEmpty(shouldCriterions)) {
+//                for (ESCriterion criterion : shouldCriterions) {
+//                    for (QueryBuilder builder : criterion.listBuilders()) {
+//                        queryBuilder = boolQueryBuilder.should(builder);
+//                    }
+//
+//                }
+//            }
+//            //must not 容器
+//            if (!CollectionUtils.isEmpty(mustNotCriterions)) {
+//                for (ESCriterion criterion : mustNotCriterions) {
+//                    for (QueryBuilder builder : criterion.listBuilders()) {
+//                        queryBuilder = boolQueryBuilder.mustNot(builder);
+//                    }
+//                }
+//            }
+//            //filter 容器
+//            if (!CollectionUtils.isEmpty(filterCriterions)) {
+//                for (ESCriterion criterion : filterCriterions) {
+//                    for (QueryBuilder builder : criterion.listBuilders()) {
+//                        queryBuilder = boolQueryBuilder.filter(builder);
+//                    }
+//                }
+//            }
+            return queryBuilder;
+//        } else {
+//            return null;
+//        }
+    }
+
+    /**
+     * 增加简单条件表达式
+     */
+    public ESQueryBuilderConstructor must(ESCriterion criterion){
+        if(criterion!=null){
+            mustCriterions.add(criterion);
+        }
+        return this;
+    }
+    /**
+     * 增加简单条件表达式
+     */
+    public ESQueryBuilderConstructor should(ESCriterion criterion){
+        if(criterion!=null){
+            shouldCriterions.add(criterion);
+        }
+        return this;
+    }
+    /**
+     * 增加简单条件表达式
+     */
+    public ESQueryBuilderConstructor mustNot(ESCriterion criterion){
+        if(criterion!=null){
+            mustNotCriterions.add(criterion);
+        }
+        return this;
+    }
+    /**
+     * 增加过滤表达式
+     */
+    public ESQueryBuilderConstructor filter(ESCriterion criterion){
+        if(criterion!=null){
+            filterCriterions.add(criterion);
+        }
+        return this;
+    }
+
+    public void clear() {
+        mustCriterions.clear();
+        shouldCriterions.clear();
+        mustNotCriterions.clear();
+        filterCriterions.clear();
+    }
+
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public String getAsc() {
+        return asc;
+    }
+
+    public void setAsc(String asc) {
+        this.asc = asc;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public int getFrom() {
+        return from;
+    }
+
+    public void setFrom(int from) {
+        this.from = from;
+    }
+}

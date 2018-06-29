@@ -11,7 +11,6 @@ import javax.net.ssl.SSLContext;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.CookieStore;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -24,7 +23,6 @@ import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
@@ -44,10 +42,10 @@ public class HttpClientHelper {
     private int socketTimeout = 10000;
     private int connectionRequestTimeout = 2000;
     private int connectTimeout = 10000;
-    private CookieStore cookieStore = new BasicCookieStore();
+
     // 代理信息
-    public static String proxyIp = "127.0.0.1";
-    public static int proxyPort = 8888;
+    public static String proxyIp = "47.92.141.254";
+    public static int proxyPort = 80;
 
     private static HttpClientHelper httpClientHelper = null;
 
@@ -110,13 +108,13 @@ public class HttpClientHelper {
         RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectionRequestTimeout)
                 .setConnectTimeout(connectTimeout).setSocketTimeout(socketTimeout).build();
         HttpClientBuilder httpClientBuilder = HttpClients.custom();
-        httpClientBuilder.setDefaultCookieStore(cookieStore);
         httpClientBuilder.setConnectionManager(poolConnManager).setDefaultRequestConfig(requestConfig);// set proxy
         if (proxyIp != null) {
             org.apache.http.HttpHost proxy = new org.apache.http.HttpHost(proxyIp, Integer.valueOf(proxyPort));
             DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
             httpClientBuilder.setRoutePlanner(routePlanner);
         }
+
         CloseableHttpClient httpClient = httpClientBuilder.build();
         if (poolConnManager != null && poolConnManager.getTotalStats() != null) {
             log.info("now client pool " + poolConnManager.getTotalStats().toString());
@@ -162,7 +160,6 @@ public class HttpClientHelper {
         HttpGet httpPost = null;
         try {
             httpPost = new HttpGet(apiUrl);
-//            Util.printHeader(httpPost());
             response = httpClient.execute(httpPost);
             int status = response.getStatusLine().getStatusCode();
             log.info("http request url : " + url + " status : " + status);
@@ -213,7 +210,7 @@ public class HttpClientHelper {
         CloseableHttpClient httpClient = getConnection();
         CloseableHttpResponse response = null;
         try {
-            List<NameValuePair> pairList = new ArrayList<NameValuePair>(params.size());
+            List<NameValuePair> pairList = new ArrayList<>(params.size());
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 NameValuePair pair = new BasicNameValuePair(entry.getKey(), entry.getValue().toString());
                 pairList.add(pair);
@@ -247,13 +244,5 @@ public class HttpClientHelper {
             }
         }
         return result;
-    }
-
-    public CookieStore getCookieStore() {
-        return cookieStore;
-    }
-
-    public void setCookieStore(CookieStore cookieStore) {
-        this.cookieStore = cookieStore;
     }
 }

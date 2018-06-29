@@ -9,13 +9,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.http.Header;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.log4j.Logger;
 
 public abstract class CrawlBase {
@@ -33,7 +29,7 @@ public abstract class CrawlBase {
     private static int maxConnectTimes = 3;
     //网页默认编码方式
     private static String charsetName = "iso-8859-1";
-    private static HttpClient httpClient = new HttpClient();
+    private static HttpClient httpClient = HttpClients.createDefault();
 
     static {
         httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(connectTimeout);

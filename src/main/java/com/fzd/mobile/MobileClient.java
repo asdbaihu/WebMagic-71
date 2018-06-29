@@ -1,9 +1,5 @@
 package com.fzd.mobile;
 import com.fzd.httpclient4_5.Util;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.HttpVersion;
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
