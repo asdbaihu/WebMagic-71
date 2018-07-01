@@ -63,7 +63,7 @@ public class Login {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-//        callRecords(dispatcher);
+        callRecords(dispatcher);
 //        Login login = new Login();
         sendSms2();
 //        login.login2("984219");
@@ -105,13 +105,13 @@ public class Login {
     }
 
 
-    private static VerCode getSmsImgVerifyCode(String url) {
+    private static VerCode getSmsImgVerifyCode(String url,String key) {
         HttpPost httpPost = new HttpPost(url);
         //设置参数
         List<NameValuePair> list = new ArrayList<NameValuePair>();
         list.add(new BasicNameValuePair("reqUrl", "SC_VerCode"));
         list.add(new BasicNameValuePair("busiNum", "SC_VerCode"));
-        list.add(new BasicNameValuePair("key", "LOGIN_SMS"));
+        list.add(new BasicNameValuePair("key", ""));
         VerCode verCode = null;
         if (list.size() > 0) {
             UrlEncodedFormEntity entity = null;
@@ -174,7 +174,7 @@ public class Login {
                             System.out.println("加密后短信验证码：" + smsVerifyCode);
                             login("http://www.sc.10086.cn/service/actionDispatcher.do", smsVerifyCode);
                         } else {
-                            VerCode verCode = getSmsImgVerifyCode("http://www.sc.10086.cn/service/actionDispatcher.do");
+                            VerCode verCode = getSmsImgVerifyCode("http://www.sc.10086.cn/service/actionDispatcher.do","LOGIN_SMS");
                             System.out.println("请重新输入图片验证码：");
                             imgVerifyCode = scanner.nextLine();
                             imgVerifyCode = desCrypt.encode(imgVerifyCode);
@@ -218,6 +218,10 @@ public class Login {
     }
 
     private static void callRecords(String url) {
+//        HttpGet getImg
+
+
+
         HttpPost httpPost = new HttpPost(url);
         //设置参数
         List<NameValuePair> list = new ArrayList<NameValuePair>();
