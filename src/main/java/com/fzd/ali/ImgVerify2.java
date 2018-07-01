@@ -51,9 +51,9 @@ public class ImgVerify2 {
         int success = 0;
         int fail = 0;
         FileOutputStream fos;
-        while (i < 1000) {
+        while (i < 100) {
             byte[] data = search1688.getImg(
-                    "//pin.aliyun.com/get_img?sessionid=e516e2769f5dce1c080d19461d8b3008&identity=sm-searchweb2&type=default"
+                    "//pin.aliyun.com/get_img?sessionid=e516e2769f5dce1c080d19461d8b3008&identity=sm-searchweb2&type=number"
             );
             BASE64Encoder encoder = new BASE64Encoder();
             String base64 = encoder.encode(data);
@@ -61,8 +61,8 @@ public class ImgVerify2 {
             Map<String, Object> params = new HashMap<>();
             params.put("strs", base64);
 //            String verifyCode = HttpUtil.doPost("http://127.0.0.1:8000/captchar", params);
-                String verifyCode = HttpUtil.doPost("http://192.168.0.148:8000/captchar", params);
-//            String verifyCode = HttpUtil.doPost("http://192.168.0.148:8000/number", params);
+//                String verifyCode = HttpUtil.doPost("http:/127.0.0.1:8000/captchar", params);
+            String verifyCode = HttpUtil.doPost("http://127.0.0.1:8000/number", params);
             try {
                 ImgVerifyResult imgVerifyResult = JSON.parseObject(verifyCode, ImgVerifyResult.class);
                 if (imgVerifyResult.getData() != null) {
@@ -86,7 +86,8 @@ public class ImgVerify2 {
                 fos = new FileOutputStream("C:\\Users\\SRKJ\\Desktop\\exception.jpg");
                 fos.write(data);
                 fos.close();
-                break;
+                fail++;
+                continue;
             }
             i++;
         }
