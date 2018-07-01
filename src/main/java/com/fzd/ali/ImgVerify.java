@@ -61,7 +61,7 @@ public class ImgVerify {
             params.put("strs", base64);
 //            String verifyCode = HttpUtil.doPost("http://127.0.0.1:8000/captchar", params);
 //                String verifyCode = HttpUtil.doPost("http://192.168.0.148:8000/captchar", params);
-            String verifyCode = HttpUtil.doPost("http://192.168.0.148:8000/number", params);
+            String verifyCode = HttpUtil.doPost("http://127.0.0.1:8000/number", params);
             try {
                 ImgVerifyResult imgVerifyResult = JSON.parseObject(verifyCode, ImgVerifyResult.class);
                 if (imgVerifyResult.getData() != null) {
