@@ -76,7 +76,7 @@ public class CrawlYellowPage {
         }
         HttpEntity entity = response.getEntity();
         byte[] data = EntityUtils.toByteArray(entity);
-        FileOutputStream fos = new FileOutputStream("C:\\Users\\SRKJ\\IdeaProjects\\WebMagic\\src\\main\\java\\com\\fzd\\ali\\a.jpg");
+        FileOutputStream fos = new FileOutputStream("F:\\IdeaProjects\\WebMagic\\WebMagic\\src\\main\\java\\com\\fzd\\ali\\a.jpg");
         fos.write(data);
         fos.close();
 //        System.out.println("图片下载成功");
